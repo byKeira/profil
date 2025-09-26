@@ -1,0 +1,67 @@
+# Funkcja do walidacji hasła
+def sprawdz_haslo(haslo):
+    
+    if len(haslo) < 8:
+        print('Hasło jest za krótkie.')
+        return False
+
+    ma_cyfre = False
+    ma_wielka_litere = False
+
+    
+    for znak in haslo:
+        if znak.isdigit():
+            ma_cyfre = True
+        if znak.isupper():
+            ma_wielka_litere = True
+
+    
+    if ma_cyfre and ma_wielka_litere:
+        return True
+    else:
+        print('Hasło musi zawierać co najmniej jedną cyfrę i wielką literę.')
+        return False
+
+
+def sprawdz_wiek(wiek):
+    # Sprawdzamy czy wiek jest poprawnym typem danych i czy mieści się w zakresie
+    if isinstance(wiek, int) and 0 < wiek < 150:
+        return True
+    else:
+        print('Wiek musi być liczbą od 1 do 149.')
+        return False
+
+
+def stworz_profil(imie, wiek, haslo):
+    haslo_ok = sprawdz_haslo(haslo)
+    wiek_ok = sprawdz_wiek(wiek)
+
+    if haslo_ok and wiek_ok:
+        profil = {'imię': imie, 'wiek': wiek, 'hasło': haslo}
+        return profil
+    else:
+        return None
+
+# --- Program główny ---
+
+
+imie_uzytkownika = input('Podaj swoje imię: ')
+wiek_uzytkownika_str = input('Podaj swój wiek: ')
+haslo_uzytkownika = input('Podaj swoje hasło: ')
+
+
+try:
+    wiek_uzytkownika = int(wiek_uzytkownika_str)
+except ValueError:
+    print('Wiek musi być liczbą! Tworzenie profilu nieudane.')
+    wiek_uzytkownika = 'niepoprawny typ' # Ustawienie wartości, która nie przejdzie walidacji
+
+
+profil = stworz_profil(imie_uzytkownika, wiek_uzytkownika, haslo_uzytkownika)
+
+
+if profil:
+    print('\nUtworzono profil użytkownika: ')
+    print(profil)
+else:
+    print('\nNie udało się utworzyć profilu. Popraw błędy i spróbuj ponownie.')
